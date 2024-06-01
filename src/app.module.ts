@@ -8,6 +8,7 @@ import { RolesController } from './roles/roles.controller';
 import { RolesModule } from './roles/roles.module';
 import { Role } from "./roles/roles.model";
 import { UserRolesModule } from './user-roles/user-roles.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     controllers: [],
@@ -30,6 +31,7 @@ import { UserRolesModule } from './user-roles/user-roles.module';
         UsersModule,
         RolesModule,
         UserRolesModule,
+        AuthModule,
     ]
 })
 
