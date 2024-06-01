@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Role } from "src/roles/roles.model";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 // interface UserCreationAttrs {
 //     email: string,
@@ -8,6 +9,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity({name: "users"})
+@Unique(['email'])
 export class User {
     @ApiProperty({example: '1', description: 'Identificator'})
     @PrimaryGeneratedColumn()
@@ -34,4 +36,9 @@ export class User {
         nullable: true
     })
     banReason: string
+
+    @ManyToMany(() => Role, role => role.users)
+    @JoinTable({ name: 'user_roles' })
+    roles: Role[];
+
 }
