@@ -27,7 +27,12 @@ export class UsersService {
     }
 
     async getUserByEmail(email: string) {
-        const user = await this.userRepository.findOne({ where: {email}, relations: ['roles']})
+        const user = await this.userRepository.createQueryBuilder("user")
+        .addSelect("user.password")
+        .leftJoinAndSelect("user.roles", "roles")
+        .where("user.email = :email", { email })
+        .getOne()
+
         return user;
     }
 

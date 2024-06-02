@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Role } from "src/roles/roles.model";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 // interface UserCreationAttrs {
 //     email: string,
@@ -20,7 +20,7 @@ export class User {
     email: string
 
     @ApiProperty({example: '12345!Qwerty', description: 'User password'})
-    @Column()
+    @Column({select: false})
     password: string
 
 
@@ -36,6 +36,10 @@ export class User {
         nullable: true
     })
     banReason: string
+
+    @ApiProperty({ example: '2024-06-02T12:34:56.789Z', description: 'Creation timestamp' })
+    @CreateDateColumn({ type: 'timestamp' })
+    createdAt: Date;
 
     @ManyToMany(() => Role, role => role.users)
     @JoinTable({ name: 'user_roles' })
