@@ -20,6 +20,7 @@ export class FileService {
             return fileName
 
         } catch (e) {
+            console.log(e)
             throw new HttpException('Error while uploading an image', HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }

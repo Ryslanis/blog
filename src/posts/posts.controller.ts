@@ -4,11 +4,15 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Posts')
 @Controller('posts')
 export class PostsController {
     constructor(private postService: PostsService) {}
     
+    @ApiTags('Create a post')
+    @ApiResponse({status: 200})
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(FileInterceptor('image'))
     @Post()
@@ -21,4 +25,5 @@ export class PostsController {
         const userId = user.userId;
         return this.postService.create(dto, userId, image)
     }
+
 }

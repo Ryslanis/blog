@@ -8,13 +8,11 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { AddRoleDto } from './dto/add-role.dto';
 import { BanUserDto } from './dto/ban-user.dto';
-import { CustomValidationPipe } from 'src/pipes/pipe.validation';
 
 
 @ApiTags('Registrated users')
 @Controller('users')
 export class UsersController {
-    
     constructor(private userService: UsersService) {}
     
 
