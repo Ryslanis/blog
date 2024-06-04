@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './user.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -39,13 +39,17 @@ export class UsersService {
 
     async addRole(dto: AddRoleDto) {
         const user = await this.userRepository.findOne({where: {id: dto.userId}, relations: ['roles']})
+        if (user.roles.some(role => role.name == dto.name)) {
+            throw new BadRequestException(`User already has role ${dto.name}`)
+        }
+
         const role = await this.roleService.getRoleByName(dto.name)
         if (user && role) {
             user.roles.push(role)
             await this.userRepository.save(user)
             return dto
         }
-        throw new HttpException('User or role is not found', HttpStatus.NOT_FOUND)
+        throw new NotFoundException('User or role is not found')
     }
 
     async ban(dto: BanUserDto) {
@@ -56,7 +60,7 @@ export class UsersService {
             await this.userRepository.save(user)
             return user
         }
-        throw new HttpException('User is not found', HttpStatus.NOT_FOUND)
+        throw new NotFoundException('User is not found')
     }
 }
 

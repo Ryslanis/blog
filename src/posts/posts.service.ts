@@ -15,7 +15,18 @@ export class PostsService {
     async create(dto: CreatePostDto, userId, image: any) {
         const fileName = await this.fileService.createFile(image)
         const post = await this.postRepository.create({...dto, author: userId, image: fileName})
-        return post
+        return await this.postRepository.save(post)
+    }
+    async getAll() {
+        const posts = await this.postRepository.findAndCount()
+        return posts
     }
 
+    async getOne(id: number) {
+        const post = await this.postRepository.findOne({
+            where: {id},
+            relations: ['users']
+        })
+        return post
+    }
 }

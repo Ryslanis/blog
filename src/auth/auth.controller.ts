@@ -27,7 +27,6 @@ export class AuthController {
         return req.user
   }
 
-    @UsePipes(CustomValidationPipe)
     @Post('registration')
     registration(@Body() userDto: CreateUserDto) {
         return this.authService.registration(userDto)

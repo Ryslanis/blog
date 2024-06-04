@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import * as path from 'path'
 import { promises as fs } from 'fs';
 import * as fsSync from 'fs';
@@ -21,7 +21,7 @@ export class FileService {
 
         } catch (e) {
             console.log(e)
-            throw new HttpException('Error while uploading an image', HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new InternalServerErrorException('Error while uploading an image')
         }
     }
 }
