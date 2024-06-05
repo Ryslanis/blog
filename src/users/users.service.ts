@@ -22,8 +22,8 @@ export class UsersService {
     }
 
     async getAllUsers() {
-        const users = await this.userRepository.findAndCount({ relations: ['roles']})
-        return users;
+        const [users, count] = await this.userRepository.findAndCount({ relations: ['roles']})
+        return {users, count};
     }
 
     async getUserByEmail(email: string) {

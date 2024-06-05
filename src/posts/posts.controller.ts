@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { api } from '../utils/constants'
+import { GetPostsDto } from './dto/get-posts.dto';
+
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -27,8 +30,8 @@ export class PostsController {
     }
 
     @Get('/')
-    getPosts() {
-        return this.postService.getAll()
+    getPosts(@Query() query: GetPostsDto) {
+        return this.postService.getAll(query)
     }
 
     @Get(':id')
