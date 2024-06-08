@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsIn, IsNumber, IsOptional } from 'class-validator';
-import { api } from 'src/utils/constants';
+import { API } from 'src/utils/constants';
 
 export class GetPostsDto {
-  @ApiProperty({ required: false, default: api.postsGetLimit })
-  readonly limit: number = api.postsGetLimit;
+  @ApiProperty({ required: false, default: API.postsGetLimit })
+  readonly limit: number = API.postsGetLimit;
   
   @ApiProperty({ required: false, default: 1 })
   @IsNumber()

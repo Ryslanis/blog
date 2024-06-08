@@ -5,7 +5,6 @@ import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { api } from '../utils/constants'
 import { GetPostsDto } from './dto/get-posts.dto';
 
 
