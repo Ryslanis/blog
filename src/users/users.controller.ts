@@ -8,6 +8,7 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { AddRoleDto } from './dto/add-role.dto';
 import { BanUserDto } from './dto/ban-user.dto';
+import { ROLES } from 'src/utils/constants';
 
 
 @ApiTags('Registrated users')
@@ -25,7 +26,7 @@ export class UsersController {
 
     @ApiOperation({summary: 'Get all users'})
     @ApiResponse({status: 200, type: [User]})
-    // @Roles(['ADMIN'])
+    @Roles([ROLES.ADMIN])
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Get()
     getAll() {
@@ -34,7 +35,7 @@ export class UsersController {
 
     @ApiOperation({summary: `Set user's role`})
     @ApiResponse({status: 200})
-    @Roles(['ADMIN'])
+    @Roles([ROLES.ADMIN, ROLES.MODERATOR])
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Post('/role')
     addRole(@Body() dto: AddRoleDto) {
@@ -43,7 +44,7 @@ export class UsersController {
 
     @ApiOperation({summary: `Ban a user`})
     @ApiResponse({status: 200})
-    @Roles(['ADMIN'])
+    @Roles([ROLES.ADMIN, ROLES.MODERATOR])
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Post('/ban')
     ban(@Body() dto: BanUserDto) {

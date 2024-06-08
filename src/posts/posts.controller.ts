@@ -5,8 +5,10 @@ import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { api } from '../utils/constants'
 import { GetPostsDto } from './dto/get-posts.dto';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { ROLES } from 'src/utils/constants';
 
 
 @ApiTags('Posts')
@@ -16,8 +18,9 @@ export class PostsController {
     
     @ApiOperation({summary: 'Create a post'})
     @ApiResponse({status: 200})
-    @UseGuards(JwtAuthGuard)
     @UseInterceptors(FileInterceptor('image'))
+    @Roles([ROLES.USER])
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Post()
     createPost(
         @Body() dto: CreatePostDto, 
