@@ -18,13 +18,14 @@ export class AuthService {
       if (!user) {
         throw new UnauthorizedException('Incorrect email address');
       }
-      const isPasswordValid = await this.verifyPassword(password, user.password);
+
+      const hashPassword = await this.usersService._getUserPassword(user.id)
+      const isPasswordValid = await this.verifyPassword(password, hashPassword)
       if (!isPasswordValid) {
         throw new UnauthorizedException('Incorrect password');
       }
       return user;
     }
-  
  
     async registration(userDto: CreateUserDto) {
         const candidate = await this.usersService.getUserByEmail(userDto.email)

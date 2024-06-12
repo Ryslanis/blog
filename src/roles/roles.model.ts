@@ -2,14 +2,14 @@ import { ApiProperty } from "@nestjs/swagger";
 import { User } from "src/users/user.model";
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({name: 'roles'})
 export class Role {
     @ApiProperty({example: '1', description: 'Identificator'})
     @PrimaryGeneratedColumn()
     id: number
     
     @ApiProperty({example: 'MODERATOR', description: 'Unique value'})
-    @Column()
+    @Column({unique: true})
     name: string
 
     @ApiProperty({example: `Can ban users, can edit users' messages`, description: 'Permissions'})

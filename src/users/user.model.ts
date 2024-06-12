@@ -3,10 +3,10 @@ import { Post } from "src/posts/posts.model";
 import { Role } from "src/roles/roles.model";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
-// interface UserCreationAttrs {
-//     email: string,
-//     password: string,
-// }
+interface UserCreationAttrs {
+    email: string,
+    password: string,
+}
 
 
 @Entity({name: "users"})

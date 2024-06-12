@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user';
 import { RolesService } from 'src/roles/roles.service';
 import { AddRoleDto } from './dto/add-role.dto';
 import { BanUserDto } from './dto/ban-user.dto';
+import { ROLES } from 'src/utils/constants';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +17,7 @@ export class UsersService {
 
     async createUser(dto: CreateUserDto) {
         const user = this.userRepository.create(dto)
-        const role = await this.roleService.getRoleByName("USER")
+        const role = await this.roleService.getRoleByName(ROLES.USER)
         user.roles = [role]
         return await this.userRepository.save(user)
     }
@@ -27,13 +28,17 @@ export class UsersService {
     }
 
     async getUserByEmail(email: string) {
+        const user = await this.userRepository.findOne({where: {email}, relations: ['roles']})
+        return user
+    }
+
+    async _getUserPassword(userId) {
         const user = await this.userRepository.createQueryBuilder("user")
         .addSelect("user.password")
         .leftJoinAndSelect("user.roles", "roles")
-        .where("user.email = :email", { email })
+        .where("user.id = :userId", { userId })
         .getOne()
-
-        return user;
+        return user.password;
     }
 
 

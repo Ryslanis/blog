@@ -24,6 +24,12 @@ export class Post {
     @Column()
     image: string
 
+    @ApiProperty({example: "12", description: 'Persons who liked the post'})
+    @Column({
+        default: 0
+    })
+    likes: number
+
     @Column()
     authorId: number;
 

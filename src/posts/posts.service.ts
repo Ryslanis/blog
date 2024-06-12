@@ -18,7 +18,7 @@ export class PostsService {
             throw new BadRequestException("No image provided")
         }
         const fileName = await this.fileService.createFile(image)
-        const post = await this.postRepository.create({...dto, author: userId, image: fileName})
+        const post = await this.postRepository.create({...dto, authorId: userId, image: fileName})
         return await this.postRepository.save(post)
     }
     async getAll(query: GetPostsDto) {
